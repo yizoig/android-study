@@ -1,58 +1,52 @@
 package com.example.exvu.myapplication;
 
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  */
 public class MainActivity extends BaseActivity {
 
-
-    private android.widget.Button login;
-    private android.widget.LinearLayout FrameLayout1;
-
-    private MyBcReceiver myBcReceiver;
-    private LocalBroadcastManager localBroadcastManager;
-    private IntentFilter intentFilter;
+    private List<Sms> mData;
+    private SmsAdapter smsAdapter;
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        try{
-            this.FrameLayout1 = (LinearLayout) findViewById(R.id.FrameLayout1);
-            this.login = (Button) findViewById(R.id.login);
+        this.list = (ListView) findViewById(R.id.list);
 
-            localBroadcastManager = LocalBroadcastManager.getInstance(this);
-
-            myBcReceiver = new MyBcReceiver();
-            intentFilter = new IntentFilter();
-            intentFilter.addAction("com.jay.mybcreceiver.LOGIN_OTHER");
-            localBroadcastManager.registerReceiver(myBcReceiver, intentFilter);
-
-            this.login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent("com.jay.mybcreceiver.LOGIN_OTHER");
-                    localBroadcastManager.sendBroadcast(intent);
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        localBroadcastManager.unregisterReceiver(myBcReceiver);
+
+    private void getMessages() {
+
+        Uri uri = Uri.parse("content://sms/");
+
+        ContentResolver contentResolver = getContentResolver();
+
+        Cursor cursor = contentResolver.query(uri, new String[]{"address", "date", "body"}, null, null, null);
+
+        mData = new LinkedList<Sms>();
+        while (cursor.moveToNext()) {
+
+            Sms sms = new Sms();
+            sms.setSend(cursor.getString(0));
+            sms.setDate(cursor.getString(1));
+            sms.setBody(cursor.getString(2));
+            mData.add(sms);
+        }
+        cursor.close();
+        smsAdapter = new SmsAdapter((LinkedList<Sms>) mData, MainActivity.this);
+        list.setAdapter(smsAdapter);
     }
 }
