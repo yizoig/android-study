@@ -3,8 +3,10 @@ package com.example.exvu.myapplication;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,18 +17,27 @@ import android.widget.TextView;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private android.widget.RelativeLayout lytopbar;
-    private TextView txtchannel;
-    private TextView txtmessage;
-    private TextView txtbetter;
-    private android.widget.LinearLayout lytabbar;
-    private android.view.View divtabbar;
-    private android.widget.FrameLayout lycontent;
-
-    private MyFragment fg1, fg2, fg3, fg4;
-    private FragmentManager fManager;
+    private RelativeLayout a;
     private TextView txttopbar;
-    private TextView txtsetting;
+    private RelativeLayout lytopbar;
+    private TextView txtchannel;
+    private android.widget.LinearLayout lytabmenuchannel;
+    private TextView txtbetter;
+    private android.widget.LinearLayout lytabmenubetter;
+    private TextView txtmessage;
+    private android.widget.LinearLayout lytabmenumessage;
+    private TextView txtmy;
+    private android.widget.LinearLayout lytabmenumy;
+    private android.widget.LinearLayout lytabmenu;
+    private View divtabbar;
+    private FrameLayout lycontent;
+    private MyFragment fg1;
+    private FragmentManager fManager;
+    private FragmentTransaction fTransaction;
+    private TextView tabmenuchannelnum;
+    private TextView tabmenubetternum;
+    private TextView tabmenumessagenum;
+    private android.widget.ImageView tabmenuny;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,101 +46,82 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         this.lycontent = (FrameLayout) findViewById(R.id.ly_content);
         this.divtabbar = (View) findViewById(R.id.div_tab_bar);
-        this.lytabbar = (LinearLayout) findViewById(R.id.ly_tab_bar);
-        this.txtsetting = (TextView) findViewById(R.id.txt_setting);
-        this.txtbetter = (TextView) findViewById(R.id.txt_better);
-        this.txtmessage = (TextView) findViewById(R.id.txt_message);
-        this.txtchannel = (TextView) findViewById(R.id.txt_channel);
+        this.lytabmenu = (LinearLayout) findViewById(R.id.ly_tab_menu);
+        this.tabmenuny = (ImageView) findViewById(R.id.tab_menu_ny);
+        this.tabmenumessagenum = (TextView) findViewById(R.id.tab_menu_message_num);
+        this.tabmenubetternum = (TextView) findViewById(R.id.tab_menu_better_num);
+        this.tabmenuchannelnum = (TextView) findViewById(R.id.tab_menu_channel_num);
         this.lytopbar = (RelativeLayout) findViewById(R.id.ly_top_bar);
         this.txttopbar = (TextView) findViewById(R.id.txt_topbar);
 
+        this.lytabmenumy = (LinearLayout) findViewById(R.id.ly_tab_menu_my);
+        this.txtmy = (TextView) findViewById(R.id.txt_my);
+
+        this.lytabmenumessage = (LinearLayout) findViewById(R.id.ly_tab_menu_message);
+        this.txtmessage = (TextView) findViewById(R.id.txt_message);
+
+        this.lytabmenubetter = (LinearLayout) findViewById(R.id.ly_tab_menu_better);
+        this.txtbetter = (TextView) findViewById(R.id.txt_better);
+
+        this.lytabmenuchannel = (LinearLayout) findViewById(R.id.ly_tab_menu_channel);
+        this.txtchannel = (TextView) findViewById(R.id.txt_channel);
+
+        lytabmenubetter.setOnClickListener(this);
+        lytabmenuchannel.setOnClickListener(this);
+        lytabmenumessage.setOnClickListener(this);
+        lytabmenumy.setOnClickListener(this);
+
+        fg1 = new MyFragment();
 
         fManager = getFragmentManager();
-        bindView();
-        txtchannel.performClick();
+        fTransaction = fManager.beginTransaction();
+        fTransaction.add(R.id.ly_content, fg1).commit();
 
     }
 
-    private void bindView() {
-        this.lycontent = (FrameLayout) findViewById(R.id.ly_content);
-        this.divtabbar = (View) findViewById(R.id.div_tab_bar);
-        this.lytabbar = (LinearLayout) findViewById(R.id.ly_tab_bar);
-        this.txtbetter = (TextView) findViewById(R.id.txt_better);
-        this.txtmessage = (TextView) findViewById(R.id.txt_message);
-        this.txtchannel = (TextView) findViewById(R.id.txt_channel);
-        this.lytopbar = (RelativeLayout) findViewById(R.id.ly_top_bar);
-        txtchannel.setOnClickListener(this);
-        txtmessage.setOnClickListener(this);
-        txtbetter.setOnClickListener(this);
-        txtsetting.setOnClickListener(this);
+    //重置所有文本的选中状态
+    private void setSelected() {
+        txtchannel.setSelected(false);
+        txtmessage.setSelected(false);
+        txtbetter.setSelected(false);
+        txtmy.setSelected(false);
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onClick(View v) {
         try {
-            FragmentTransaction fragmentTransaction = fManager.beginTransaction();
-            hideAllFragment(fragmentTransaction);
-            switch (view.getId()) {
-                case R.id.txt_channel:
+
+            switch (v.getId()) {
+                case R.id.ly_tab_menu_channel:
+                    Log.e("click", "ly_tab_menu_channel");
                     setSelected();
                     txtchannel.setSelected(true);
-                    if (fg1 == null) {
-                        fg1 = new MyFragment("chanel");
-                        fragmentTransaction.add(R.id.ly_content, fg1);
-                    } else {
-                        fragmentTransaction.show(fg1);
-                    }
+                    tabmenuchannelnum.setVisibility(View.INVISIBLE);
                     break;
-                case R.id.txt_better:
+                case R.id.ly_tab_menu_better:
+                    Log.e("click", "ly_tab_menu_better");
                     setSelected();
                     txtbetter.setSelected(true);
-                    if (fg2 == null) {
-                        fg2 = new MyFragment("better");
-                        fragmentTransaction.add(R.id.ly_content, fg2);
-                    } else {
-                        fragmentTransaction.show(fg2);
-                    }
+                    tabmenubetternum.setVisibility(View.INVISIBLE);
+
                     break;
-                case R.id.txt_message:
+                case R.id.ly_tab_menu_message:
+                    Log.e("click", "ly_tab_menu_message");
                     setSelected();
                     txtmessage.setSelected(true);
-                    if (fg3 == null) {
-                        fg3 = new MyFragment("message");
-                        fragmentTransaction.add(R.id.ly_content, fg3);
-                    } else {
-                        fragmentTransaction.show(fg3);
-                    }
+                    tabmenumessagenum.setVisibility(View.INVISIBLE);
                     break;
-                case R.id.txt_setting:
+                case R.id.ly_tab_menu_my:
+                    Log.e("click", "ly_tab_menu_my");
                     setSelected();
-                    txtsetting.setSelected(true);
-                    if (fg4 == null) {
-                        fg4 = new MyFragment("my");
-                        fragmentTransaction.add(R.id.ly_content, fg4);
-                    } else {
-                        fragmentTransaction.show(fg4);
-                    }
+                    txtmy.setSelected(true);
+                    tabmenuny.setVisibility(View.INVISIBLE);
+
                     break;
             }
-            fragmentTransaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void setSelected() {
-        txtsetting.setSelected(false);
-        txtmessage.setSelected(false);
-        txtbetter.setSelected(false);
-        txtchannel.setSelected(false);
-    }
-
-    private void hideAllFragment(FragmentTransaction fTransaction) {
-        if (fg1 != null) fTransaction.hide(fg1);
-        if (fg2 != null) fTransaction.hide(fg2);
-        if (fg3 != null) fTransaction.hide(fg3);
-        if (fg4 != null) fTransaction.hide(fg4);
     }
 }
 

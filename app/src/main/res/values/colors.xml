@@ -7,6 +7,7 @@
 
 
 
+    <color name="text_white">#ffffff</color>
     <color name="bg_white">#ffffff</color>
     <color name="transparent">#00ffffff</color>
     <color name="bg_topbar">#f8f8f8</color>
