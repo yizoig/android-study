@@ -156,10 +156,11 @@
         android:layout_height="2px"
         android:layout_above="@id/ly_tab_menu" />
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
         android:id="@+id/ly_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"></FrameLayout>
+        android:layout_above="@id/div_tab_bar"
+        android:layout_below="@id/ly_top_bar"
+        ></android.support.v4.view.ViewPager>
 </RelativeLayout>
