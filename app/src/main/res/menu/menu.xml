@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/requestImage"
+        android:title="请求图片" />
+    <item
+        android:id="@+id/requestHtmlText"
+        android:title="请求网页代码" />
+    <item
+        android:id="@+id/requestHtmlView"
+        android:title="请求网页显示到webview" />
+</menu>
