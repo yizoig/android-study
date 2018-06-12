@@ -1,7 +1,9 @@
 package com.example.exvu.myapplication;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  *
@@ -20,6 +23,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public static final int PAGE_TWO = 1;
     public static final int PAGE_THREE = 2;
     public static final int PAGE_FOUR = 3;
+    private long exitTime = 0;
     private TextView txttopbar;
     private RelativeLayout lytopbar;
     private TextView txtchannel;
@@ -37,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout lytabmenu;
     private View divtabbar;
     private ViewPager lycontent;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,12 +72,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
         lytabmenuchannel.setSelected(true);
-        myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        this.fragmentManager =getSupportFragmentManager();
+        myFragmentPagerAdapter = new MyFragmentPagerAdapter(fragmentManager);
 
         this.lycontent = (ViewPager) findViewById(R.id.ly_content);
         this.lycontent.setAdapter(myFragmentPagerAdapter);
         this.lycontent.setCurrentItem(0);
         this.lycontent.addOnPageChangeListener(this);
+
+        MyDBOpenHelper myDBOpenHelper = new MyDBOpenHelper(this,null,null,1);
+        myDBOpenHelper.getWritableDatabase();
 
     }
 
@@ -142,6 +151,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     lytabmenumy.setSelected(true);
                     break;
             }
+        }
+    }
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount() == 0) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            fragmentManager.popBackStack();
         }
     }
 }

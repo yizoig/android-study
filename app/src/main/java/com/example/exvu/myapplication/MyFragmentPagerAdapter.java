@@ -16,10 +16,14 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
 
-        myFragment1 = new MyFragment1();
+        myFragment1 = new MyFragment1(fm);
         myFragment2 = new MyFragment2();
         myFragment3 = new MyFragment3();
         myFragment4 = new MyFragment4();
+        myFragment1.setTitle("新闻列表");
+        myFragment2.setTitle("信息");
+        myFragment3.setTitle("提醒");
+        myFragment4.setTitle("设置");
     }
 
     @Override

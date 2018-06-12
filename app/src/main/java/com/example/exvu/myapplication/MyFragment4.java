@@ -13,13 +13,22 @@ public class MyFragment4 extends Fragment {
     public MyFragment4() {
     }
 
+    private String title;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_content, container, false);
-        TextView textView = (TextView)view.findViewById(R.id.text_content);
+        TextView textView = (TextView) view.findViewById(R.id.text_content);
+        TextView txtTopbar = (TextView) view.findViewById(R.id.txt_topbar);
+
+        txtTopbar.setText(title);
         textView.setText("第四个fragment");
-        Log.e("测试","第四个fragment");
+        Log.e("测试", "第四个fragment");
         return view;
     }
 }
