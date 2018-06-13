@@ -6,41 +6,47 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="40dp"
+        android:background="@drawable/border_underline"
+        android:gravity="center"
+        android:text="在线聊天室"
+        android:layout_alignParentTop="true"
+        android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/back"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="返回" />
-        <TextView
-            android:id="@+id/web_title"
-            android:text="标题"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="刷新" />
-
-
-        <Button
-            android:id="@+id/top"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="顶部" />
-    </LinearLayout>
-
-    <WebView
-        android:id="@+id/webview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title" />
+        android:layout_above="@id/footer"
+        android:layout_below="@id/title" >
+        <TextView
+            android:id="@+id/txtshow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/border_top"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送" />
+
+    </LinearLayout>
+
 </RelativeLayout>
